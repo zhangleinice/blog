@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class jQuery {  //工厂
     constructor(selector) {
         super(selector)
@@ -12,7 +14,10 @@ window.$ = function(selector) {
 
 
 
-class Vnode(tag, attrs, children) {  //工厂
+class Vnode  {  //工厂
+    constructor(params) {
+        super(params)
+    }
     //...过程
 }
 React.createElement = (tag, attrs, children) => {
