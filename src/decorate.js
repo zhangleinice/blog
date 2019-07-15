@@ -1,3 +1,5 @@
+{
+
 // 增加100防御力
 const decorateArmour = (target, key, des) => {
     let moreDef = 100;
@@ -55,7 +57,15 @@ const man = new Man()
 console.log(man.toString());
 
 
-// 作用在方法上的 decorator 接收的第一个参数（target ）是类的 prototype；如果把一个 decorator 作用到类上，则它的第一个参数 target 是 类本身。
+// 作用在方法上的 decorator 接收的第一个参数（target ）是类的 prototype；
+// 如果把一个 decorator 作用到类上，则它的第一个参数 target 是 类本身。
+
+}
+
+{
+    // @readOnly
+    // @log
+}
 
 
 
