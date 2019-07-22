@@ -28,6 +28,9 @@
    - 手机贴不贴膜可以用，有些人就喜欢加个外壳防摔
 2. es7 Decorator
    - 参数同Object.defineProperty参数一致
+3. ES7 的 decorator，作用就是返回一个新的 descriptor，并把这个新返回的 descriptor 应用到目标方法上
+4. 作用在方法上的 decorator 接收的第一个参数（target ）是类的 prototype
+5. 如果把一个 decorator 作用到类上，则它的第一个参数 target 是 类本身。
 
 ### Observer
 1. 观察者模式又称发布-订阅模式或消息机制，定义了一种依赖关系，解决了主题对象与观察者之间功能的耦合
@@ -38,5 +41,28 @@
 6. vue wacth
 7. 主题与观察者分离，不是主动触发，而是被动监听，两者解耦
 
+### State
+
+```js
+    if(type === 'a') {return <A/>}
+    if(type === 'b') {return <B/>}
+    if(type === 'c') {return <C/>}
+    // 多if或switch，改写成对象的形式
+    let obj = {
+        a: <A/>,
+        b: <B/>,
+        c: <C/>
+    }
+```
+
+### Iterator
+1. 为各种数据结构提供统一的遍历接口，如 Array，Map，Set，argument，nodeList等；
+2. 必须为有序集合，object不是
+3. for...of循环，内部实际上是调用有序集合的Symbol.iterator的属性方法；
+4. typeof Symbol.iterator === 'function'，可遍历，调用Symbol.iterator可生成一个迭代器
+```js
+    // 生成一个迭代器 
+    let iterator = data[Symbol.iterator]()
+```
 
 

@@ -6,7 +6,6 @@ const decorateArmour = (target, key, des) => {
     let ret;
     const method = des.value;
     des.value = (...args) => {
-        // console.log(args);
         args[0] += moreDef;
         ret = method.apply(target, args)
         return ret
@@ -65,6 +64,42 @@ console.log(man.toString());
 {
     // @readOnly
     // @log
+
+    //  注意这里的 `target` 是 `Dog.prototype`
+    function readonly(target, key, descriptor) {
+        descriptor.writable = false
+        return descriptor
+    }
+
+    class Dog {
+        @readonly
+        bark () {
+          return 'wang!wang!'
+        }
+    }
+      
+    let dog = new Dog()
+    // dog.bark() = 'bark!bark!'
+    // Cannot assign to read only property 'bark' of [object Object]
+
+    // 转化成es5
+    Object.defineProperty(Dog.prototype, 'bark', {
+        value: function () { return 'wang!wang!' },
+        enumerable: false,
+        configurable: true,
+        writable: true
+    })
+
+    let descriptor = {
+        value: function () { return 'wang!wang!' },
+        enumerable: false,
+        configurable: true,
+        writable: true
+    }
+
+    // decorator 接收的参数与 Object.defineProperty 一致
+    descriptor = readonly(Dog.prototype, 'bark', descriptor) || descriptor
+    Object.defineProperty(Dog.prototype, 'bark', descriptor)
 }
 
 
