@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>迭代器</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+
+
+    <script>
+        var arr = [2, 3, 4];
+        var nodeList = document.getElementsByTagName('p');
+        var $p = $('p')
+        console.log(Array.isArray(nodeList));   // false
+        console.log(Array.isArray($p));   // false
+        arr.forEach(item => console.log(item))
+        for(let i = 0; i < nodeList.length; i ++){
+            console.log(nodeList[i]);
+        }
+        $p.each((key, item) => console.log(item))
+    </script>
+</body>
+</html>
