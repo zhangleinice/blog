@@ -1,5 +1,111 @@
 #  设计模式
 
+### 动态语言
+1. 优点：编写代码少，简洁，更多精力放在业务逻辑上面。
+2. 缺点：无法保证变量类型，运行时可能报错
+3. 静态语言：编译时就能发现类型不匹配的错误
+
+### 鸭子类型
+1. 如果它走起来像鸭子，叫起来也像鸭子，那么它就是鸭子。
+2. 只关心对象行为不关注对象本身
+
+### 多态
+1. 背后的思想：将‘做什么’和‘谁去做以及怎样做’分开，也就是将‘不变的’和‘可变的’分离开来
+2. 使用继承得到多态的效果，是让对象表现多态的常用手段
+
+### 封装变化
+1. 把系统中稳定不变的和容易变化的部分隔离出来
+2. 在迭代过程中，只需替换那些容易变化的部分
+3. 可以最大程度的保证程序的稳定性和可拓展性
+
+### 原型模式
+1. 就像吸血鬼的故事里面必然有一个吸血鬼祖先一样，每个对象都是由其他对象克隆来的，必然有一个根对象。js中根对象为Object.prototype
+2. 原型编程基本规则
+   - 所有数据都是对象
+   - 要得到一个对象不是通过实例类，而是找到一个对象作为原型并克隆它
+   - 对象会记住他的原型
+   - 对象无法响应某个请求，他会把这个请求委托给自己的原型
+3. new
+```js
+    var objectFactory = function(){
+		var obj = new Object(), // 从Object.prototype 上克隆一个空的对象
+		Constructor = [].shift.call( arguments ); // 取得外部传入的构造器，此例是Person
+		obj.__proto__ = Constructor.prototype; // 指向正确的原型
+		var ret = Constructor.apply( obj, arguments ); // 借用外部传入的构造器给obj 设置属性
+		return typeof ret === 'object' ? ret : obj; // 确保构造器总是会返回一个对象
+	};
+```
+
+### this
+1. this指向
+    - 作为对象的方法调用（this指向该对象）
+    - 作为普通函数调用 （this指向全局windows）
+    - 作为构造器使用 （构造器默认return this对象）
+    - call，apply调用。（几乎每次函数式语言风格都离不开call和apply）
+```js
+    window.name = 'globalName';
+
+	var myObject = {
+		name: 'sven',
+		getName: function(){
+			return this.name;
+		}
+	};
+
+	var getName = myObject.getName;   
+	console.log( getName() ); // globalName ,此时是普通函数的调用
+	console.log( myObject.getName() ); // sven ,   此时是对象方法的调用
+```
+2. apply，call,bind
+```js
+Function.prototype.myCall = function (context) {
+  var context = context || window
+  // 给 context 添加一个属性
+  // getValue.call(a, 'yck', '24') => a.fn = getValue
+  context.fn = this
+  // 将 context 后面的参数取出来
+  var args = [...arguments].slice(1)
+  // getValue.call(a, 'yck', '24') => a.fn('yck', '24')
+  var result = context.fn(...args)
+  // 删除 fn
+  delete context.fn
+  return result
+}
+
+Function.prototype.myApply = function (context) {
+  var context = context || window
+  context.fn = this
+
+  var result
+  // 需要判断是否存储第二个参数
+  // 如果存在，就将第二个参数展开
+  if (arguments[1]) {
+    result = context.fn(...arguments[1])
+  } else {
+    result = context.fn()
+  }
+
+  delete context.fn
+  return result
+}
+
+Function.prototype.myBind = function (context) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
+  var _this = this
+  var args = [...arguments].slice(1)
+  // 返回一个函数
+  return function F() {
+    // 因为返回了一个函数，我们可以 new F()，所以需要判断
+    if (this instanceof F) {
+      return new _this(...args, ...arguments)
+    }
+    return _this.apply(context, args.concat(...arguments))
+  }
+}
+```
+
 ### 设计原则
 1. S - 单一职责：一个程序只做好一件事，相互调用，组合
 2. O - 开放封闭：对扩展开放，对修改封闭
