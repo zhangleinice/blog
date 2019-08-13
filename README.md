@@ -28,11 +28,14 @@
 3. new
 ```js
     var objectFactory = function(){
-		var obj = new Object(), // 从Object.prototype 上克隆一个空的对象
+        var obj = new Object(), // 从Object.prototype 上克隆一个空的对象
+        // [].slice.call( arguments )，Array.prototype.slice.call(arguments)将arguments类数组转化成数组
+        // [].shift.call( arguments )将arguments类数组转化成数组，去除第一个参数
+        // 取出第一个参数，就是我们要传入的构造函数。此外因为 shift 会修改原数组，所以 arguments 会被去除第一个参数
 		Constructor = [].shift.call( arguments ); // 取得外部传入的构造器，此例是Person
 		obj.__proto__ = Constructor.prototype; // 指向正确的原型
 		var ret = Constructor.apply( obj, arguments ); // 借用外部传入的构造器给obj 设置属性
-		return typeof ret === 'object' ? ret : obj; // 确保构造器总是会返回一个对象
+		return typeof ret === 'object' ? ret : obj; // 确保构造器总是会返回一个对象,构造函数默返回了一个this对象
 	};
 ```
 
@@ -57,6 +60,7 @@
 	console.log( myObject.getName() ); // sven ,   此时是对象方法的调用
 ```
 2. apply，call,bind
+   - call()方法的作用和 apply() 方法类似，区别就是call()方法接受的是参数列表，而apply()方法接受的是一个参数数组
 ```js
 Function.prototype.myCall = function (context) {
   var context = context || window
