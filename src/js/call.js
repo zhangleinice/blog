@@ -1,5 +1,4 @@
 Function.prototype.call2 = function( context ) {
-    // 不传this或者null，默认window
     var context = context || window;
     // this指向调用call2的函数
     context.fn = this;
