@@ -17,7 +17,6 @@ Function.prototype.call2 = function( context ) {
 
 export default Function
 
-
 // 实现思路
 var foo = {
     value: 1

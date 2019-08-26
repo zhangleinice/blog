@@ -4,8 +4,9 @@
 // import observer from './src/observer';
 // import iterator from './src/iterator';
 
-import hof from './src/js/hof';
-
+// import hof from './src/js/hof';
+// import apply from './src/js/apply';
+import moduleName from './src/js/debounce.js';
 
 // import Function from './src/js/call';
 // 测试一下
