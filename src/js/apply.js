@@ -13,7 +13,6 @@ Function.prototype.myApply = function( context, arr ) {
         // result = eval( 'context.fn(' + args + ')' )
         result = context.fn( arr )
     }
-
     delete context.fn
     return result;
 }

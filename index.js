@@ -6,7 +6,8 @@
 
 // import hof from './src/js/hof';
 // import apply from './src/js/apply';
-import moduleName from './src/js/debounce.js';
+// import moduleName from './src/js/debounce.js';
+import bind from './src/js/bind';
 
 // import Function from './src/js/call';
 // 测试一下

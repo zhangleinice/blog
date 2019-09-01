@@ -1,80 +1,180 @@
-// 对象代理，数据保护
+// 保护代理
+//然后选择A 心情好的时候把花转交给A，代码如下：
+var Flower = function() {};
+var xiaoming = {
+    sendFlower: function( target ) {
+        var flower = new Flower();
+        target.receiveFlower( flower );
+    }
+};
+var B = {
+    receiveFlower: function( flower ) {
+        A.listenGoodMood( function() { // 监听A 的好心情
+            A.receiveFlower( flower );
+        } );
+    }
+};
+var A = {
+    receiveFlower: function( flower ) {
+        console.log( '收到花 ' + flower );
+    },
+    listenGoodMood: function( fn ) {
+        setTimeout( function() { // 假设10 秒之后A 的心情变好
+            fn();
+        }, 10000 );
+    }
+};
+
+xiaoming.sendFlower( B );
+
+
+// 缓存代理
+/**************** 计算乘积 *****************/
+var mult = function() {
+    var a = 1;
+    for ( var i = 0, l = arguments.length; i < l; i++ ) {
+        a = a * arguments[ i ];
+    }
+    return a;
+};
+/**************** 计算加和 *****************/
+var plus = function() {
+    var a = 0;
+    for ( var i = 0, l = arguments.length; i < l; i++ ) {
+        a = a + arguments[ i ];
+    }
+    return a;
+};
+/**************** 创建缓存代理的工厂 *****************/
+var createProxyFactory = function( fn ) {
+    var cache = {};
+    return function() {
+        var args = Array.prototype.join.call( arguments, ',' );
+        if ( args in cache ) {
+            return cache[ args ];
+        }
+        return cache[ args ] = fn.apply( this, arguments );
+    }
+};
+
+var proxyMult = createProxyFactory( mult ),
+    proxyPlus = createProxyFactory( plus );
+alert( proxyMult( 1, 2, 3, 4 ) ); // 输出：24
+alert( proxyMult( 1, 2, 3, 4 ) ); // 输出：24
+alert( proxyPlus( 1, 2, 3, 4 ) ); // 输出：10
+alert( proxyPlus( 1, 2, 3, 4 ) ); // 输出：10
+
 
 // es3，闭包
 {
 
-var Person = function() {
-  var data = {
-    name: 'es3',
-    sex: 'male',
-    age: 15
-  }
-  this.get = function(key){
-    return data[key]
-  }
-  this.set = function(key, value) {
-    if(key !== 'sex'){
-      data[key] = value
+    var Person = function() {
+        var data = {
+            name: 'es3',
+            sex: 'male',
+            age: 15
+        }
+        this.get = function( key ) {
+            return data[ key ]
+        }
+        this.set = function( key, value ) {
+            if ( key !== 'sex' ) {
+                data[ key ] = value
+            }
+        }
     }
-  }
-}
 
-var person = new Person()
-// 读取
-console.table({name: person.get('name'), sex: person.get('sex'), age: person.get('age')});
-// 设置
-person.set('sex', 'female');
-console.table({name: person.get('name'), sex: person.get('sex'), age: person.get('age')});
+    var person = new Person()
+    // 读取
+    console.table( {
+        name: person.get( 'name' ),
+        sex: person.get( 'sex' ),
+        age: person.get( 'age' )
+    } );
+    // 设置
+    person.set( 'sex', 'female' );
+    console.table( {
+        name: person.get( 'name' ),
+        sex: person.get( 'sex' ),
+        age: person.get( 'age' )
+    } );
 
-person.set('age', 16);
-console.table({name: person.get('name'), sex: person.get('sex'), age: person.get('age')});
+    person.set( 'age', 16 );
+    console.table( {
+        name: person.get( 'name' ),
+        sex: person.get( 'sex' ),
+        age: person.get( 'age' )
+    } );
 
 }
 // es5,definedProperty
 {
 
-var Person = {
-  name: 'es5',
-  sex: 'male',
-  age: 18
-}
-Object.defineProperty(Person, 'sex', {
-  writable: false,
-  value: 'male'
-})
-// 读取
-console.table({name: Person.name, sex: Person.sex, age: Person.age});
-// 设置
-Person.sex = 'female';
-console.table({name: Person.name, sex: Person.sex, age: Person.age});
-Person.age = 20;
-console.table({name: Person.name, sex: Person.sex, age: Person.age});
+    var Person = {
+        name: 'es5',
+        sex: 'male',
+        age: 18
+    }
+    Object.defineProperty( Person, 'sex', {
+        writable: false,
+        value: 'male'
+    } )
+    // 读取
+    console.table( {
+        name: Person.name,
+        sex: Person.sex,
+        age: Person.age
+    } );
+    // 设置
+    Person.sex = 'female';
+    console.table( {
+        name: Person.name,
+        sex: Person.sex,
+        age: Person.age
+    } );
+    Person.age = 20;
+    console.table( {
+        name: Person.name,
+        sex: Person.sex,
+        age: Person.age
+    } );
 
 }
-
 // es6, Proxy
 {
 
-let Person = {
-  name: 'es6',
-  sex: 'male',
-  age: 20
-}
-let proxy = new Proxy(Person, {
-  get: (target, key) => target[key],
-  set(target, key, value) {
-    if(key !== 'sex'){
-      target[key] = value
+    let Person = {
+        name: 'es6',
+        sex: 'male',
+        age: 20
     }
-  }
-})
-// 读取
-console.table({name: proxy.name, sex: proxy.sex, age: proxy.age});
-// 设置
-proxy.sex = 'female';
-console.table({name: proxy.name, sex: proxy.sex, age: proxy.age});
-proxy.age = 22;
-console.table({name: proxy.name, sex: proxy.sex, age: proxy.age});
+    let proxy = new Proxy( Person, {
+        get: ( target, key ) => target[ key ],
+        set( target, key, value ) {
+            if ( key !== 'sex' ) {
+                target[ key ] = value
+            }
+        }
+    } )
+    // 读取
+    console.table( {
+        name: proxy.name,
+        sex: proxy.sex,
+        age: proxy.age
+    } );
+    // 设置
+    proxy.sex = 'female';
+    console.table( {
+        name: proxy.name,
+        sex: proxy.sex,
+        age: proxy.age
+    } );
+    proxy.age = 22;
+    console.table( {
+        name: proxy.name,
+        sex: proxy.sex,
+        age: proxy.age
+    } );
 
 }
 
@@ -83,49 +183,49 @@ console.table({name: proxy.name, sex: proxy.sex, age: proxy.age});
 
 {
 
-  // 明星
-let star = {
-  name: '张XX',
-  age: 25,
-  phone: '13910733521'
-}
+    // 明星
+    let star = {
+        name: '张XX',
+        age: 25,
+        phone: '13910733521'
+    }
 
-// 经纪人
-let agent = new Proxy(star, {
-  get: function (target, key) {
-      if (key === 'phone') {
-          // 返回经纪人自己的手机号
-          return '18611112222'
-      }
-      if (key === 'price') {
-          // 明星不报价，经纪人报价
-          return 120000
-      }
-      return target[key]
-  },
-  set: function (target, key, val) {
-      if (key === 'customPrice') {
-          if (val < 100000) {
-              // 最低 10w
-              throw new Error('价格太低')
-          } else {
-              target[key] = val
-              return true
-          }
-      }
-  }
-})
+    // 经纪人
+    let agent = new Proxy( star, {
+        get: function( target, key ) {
+            if ( key === 'phone' ) {
+                // 返回经纪人自己的手机号
+                return '18611112222'
+            }
+            if ( key === 'price' ) {
+                // 明星不报价，经纪人报价
+                return 120000
+            }
+            return target[ key ]
+        },
+        set: function( target, key, val ) {
+            if ( key === 'customPrice' ) {
+                if ( val < 100000 ) {
+                    // 最低 10w
+                    throw new Error( '价格太低' )
+                } else {
+                    target[ key ] = val
+                    return true
+                }
+            }
+        }
+    } )
 
-// 主办方
-console.log(agent.name)
-console.log(agent.age)
-console.log(agent.phone)
-console.log(agent.price)
+    // 主办方
+    console.log( agent.name )
+    console.log( agent.age )
+    console.log( agent.phone )
+    console.log( agent.price )
 
-// 想自己提供报价（砍价，或者高价争抢）
-agent.customPrice = 150000
-// agent.customPrice = 90000  // 报错：价格太低
-console.log('customPrice', agent.customPrice)
+    // 想自己提供报价（砍价，或者高价争抢）
+    agent.customPrice = 150000
+    // agent.customPrice = 90000  // 报错：价格太低
+    console.log( 'customPrice', agent.customPrice )
 
 }
 
@@ -150,54 +250,56 @@ console.log('customPrice', agent.customPrice)
 
 
 var multAdd = function() {
-    console.log(arguments);
-	var res = 0;
-	for (var i = 0, l = arguments.length; i < l; i++) {
-		res = res + arguments[i]
-	}
-	return res;
+    console.log( arguments );
+    var res = 0;
+    for ( var i = 0, l = arguments.length; i < l; i++ ) {
+        res = res + arguments[ i ]
+    }
+    return res;
 };
 
-var proxyAdd = (function() {
+var proxyAdd = ( function() {
     var cache = {};
-    console.log(arguments);
-	return function() {
-        var args = Array.prototype.join.call(arguments, ',');
-        console.log(args);
-		if(args in cache) {
-			return cache[args];
+    console.log( arguments );
+    return function() {
+        var args = Array.prototype.join.call( arguments, ',' );
+        console.log( args );
+        if ( args in cache ) {
+            return cache[ args ];
         }
-        console.log(arguments);
-		return caches[args] = multAdd.apply(this, arguments);
-	}
-})();
+        console.log( arguments );
+        return caches[ args ] = multAdd.apply( this, arguments );
+    }
+} )();
 
 // proxyAdd(1, 2, 3); // 6
 // proxyAdd(1, 2, 3); // 6
 
 
 var handler = {
-    get: function(target, name) {
-      if (name === 'prototype') {
-        return Object.prototype;
-      }
-      return 'Hello, ' + name;
+    get: function( target, name ) {
+        if ( name === 'prototype' ) {
+            return Object.prototype;
+        }
+        return 'Hello, ' + name;
     },
-  
-    apply: function(target, thisBinding, args) {
-      return args[0];
+
+    apply: function( target, thisBinding, args ) {
+        return args[ 0 ];
     },
-  
-    construct: function(target, args) {
-      return {value: args[1]};
+
+    construct: function( target, args ) {
+        return {
+            value: args[ 1 ]
+        };
     }
-  };
-  
-  var fproxy = new Proxy(function(x, y) {
+};
+
+var fproxy = new Proxy( function( x, y ) {
     return x + y;
-  }, handler);
-  
-  // fproxy(1, 2) // 1
+}, handler );
+
+// fproxy(1, 2) // 1
 //   new fproxy(1, 2) // {value: 2}
 //   fproxy.prototype === Object.prototype // true
 //   fproxy.foo === "Hello, foo" // true

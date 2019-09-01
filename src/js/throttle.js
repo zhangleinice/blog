@@ -1,5 +1,6 @@
 /**
  * 节流
+ * 函数的触发不是由用户直接控制的
  * @param {*} fn 节流函数
  * @param {*} delay 节流时间
  *  函数节流会用在比input, keyup更频繁触发的事件中，如resize, touchmove, mousemove, scroll。

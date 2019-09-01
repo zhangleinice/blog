@@ -7,6 +7,9 @@ Function.prototype.call2 = function( context ) {
         args.push( arguments[ i ] );
         // args.push( 'arguments[' + i + ']' );
     }
+    // Array.prototype.slice.call(arguments, 1)
+    // Array.from(arguments).slice(1)
+    // [...arguments].slice(1)
     var result = context.fn( ...args );
     // eval将字符串作为函数执行
     // var result = eval( 'context.fn(' + args + ')' );
