@@ -1,0 +1,48 @@
+{
+    // 保存文件的时候根据tsconfig.json重新生成文件
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "ES2017",
+        // "module": "commonjs",
+        // "esModuleInterop": true,
+        // "moduleResolution": "node",
+        // 启用所有严格类型检查
+        "strict": true,
+        // 在表达式和声明上有隐含的 any类型时报错。
+        "noImplicitAny": false,
+        // 装饰器 @
+        "experimentalDecorators": true,
+        // 给源码里的装饰器声明加上设计类型元数据。
+        "emitDecoratorMetadata": true,
+        "charset": "utf8",
+        // 允许编译js
+        "allowJs": false,
+        // 给错误和消息设置样式，使用颜色和上下文。
+        "pretty": true,
+        // 若有未使用的局部变量则抛错
+        "noUnusedLocals": true,
+        // 若有未使用的参数则抛错
+        "noUnusedParameters": false,
+        // 不报告执行不到的代码错误。
+        "allowUnreachableCode": false,
+        // 不报告未使用的标签错误。
+        "allowUnusedLabels": false,
+        "strictPropertyInitialization": false,
+        // 不允许switch的case语句贯穿
+        "noFallthroughCasesInSwitch": true,
+        // 忽略所有的声明文件（ *.d.ts）的类型检查
+        "skipLibCheck": true,
+        // 忽略 库的默认声明文件的类型检查
+        "skipDefaultLibCheck": true,
+        // false	生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件
+        "inlineSourceMap": true,
+        // 防止解构报错
+        "importHelpers": false
+    },
+    "include": [
+        "./**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

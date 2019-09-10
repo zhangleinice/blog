@@ -5,10 +5,7 @@
 
 ## test
 
-1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/design-pattern/adapter.js)
-2. [哈哈哈哈](https://github.com/mqyqingfeng/Blog/issues/3)
-3. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.md)
-4. [JavaScript 深入之词法作用域和动态作用域](https://github.com/mqyqingfeng/Blog/issues/3)
+<!-- 1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.md) -->
 
 ### 动态语言
 
@@ -230,7 +227,7 @@ console.log(myObject.getName()); // sven ,   此时是对象方法的调用
    - 当变化发生且对我们接下来的工作造成影响时，可以再回头来封装这些变化
 3. L - 李氏置换
 4. I - 接口独立
-5. D - 依赖倒置：面向接口编程
+5. [D - 依赖倒置：面向接口编程](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/接口和面向接口编程.md)
 
 ## 创建型设计模式
 
