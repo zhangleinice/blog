@@ -5,9 +5,9 @@
 
 ## test
 
-1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/design-pattern/adapter.js）
+1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/design-pattern/adapter.js)
 2. [哈哈哈哈](https://github.com/mqyqingfeng/Blog/issues/3)
-3. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.md）
+3. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.md)
 4. [JavaScript 深入之词法作用域和动态作用域](https://github.com/mqyqingfeng/Blog/issues/3)
 
 ### 动态语言
