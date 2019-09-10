@@ -6,7 +6,8 @@
 ## test
 
 1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/design-pattern/adapter.js）
-1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.js）
+1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.）
+1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.md）
 
 ### 动态语言
 
