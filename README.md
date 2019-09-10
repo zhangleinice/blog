@@ -3,6 +3,11 @@
 1. 很多设计模式在 js 中可以用高阶函数来实现
 2. 设计模式的主题总是把不变的事物和变化的事物分离开来
 
+## test
+
+1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/design-pattern/adapter.js）
+1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.js）
+
 ### 动态语言
 
 1. 优点：编写代码少，简洁，更多精力放在业务逻辑上面。

@@ -1,16 +1,18 @@
 {
     "presets": [
-      ["@babel/preset-env", 
-        {
-            "targets": {
-                "chrome": "67"
-            },
-            // "useBuiltIns": "usage"
-        }
-      ]
+        [ "@babel/preset-env",
+            {
+                "targets": {
+                    "chrome": "67"
+                }
+                // "useBuiltIns": "usage"
+            }
+        ]
     ],
     "plugins": [
-      ["@babel/plugin-proposal-decorators", { "legacy": true }],
-      ["@babel/plugin-syntax-dynamic-import"]
+        [ "@babel/plugin-proposal-decorators", {
+            "legacy": true
+        } ],
+        [ "@babel/plugin-syntax-dynamic-import" ]
     ]
 }
