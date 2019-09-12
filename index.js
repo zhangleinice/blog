@@ -9,7 +9,8 @@
 // import moduleName from './src/js/debounce.js';
 // import bind from './src/js/bind';
 
-import command from './src/design-pattern/command';
+// import command from './src/design-pattern/command';
+import test from './src/test/test';
 
 // import Function from './src/js/call';
 // 测试一下

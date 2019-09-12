@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const str = `
+        jedicustomer201	联系人数量不得超过10个
+jedicustomer202	手机号重复
+jedicustomer203	批量添加数据不合法
+jedicustomer204	联系人不存在
+jedicustomer205	联系人所属客源不存在
+jedicustomer206	联系人类型不合法
+jedicustomer207	联系人性别不合法
+jedicustomer208	管理选项中补录带看开关未开
+jedicustomer209	带看情况必填
+jedicustomer210	带看附件必填
+jedicustomer211	带看时间不合法
+jedicustomer212	当前状态不是待提交状态，无法作废
+jedicustomer213	成交记录类型不合法
+jedicustomer214	客源规则不存在
+jedicustomer215	更新客源规则状态失败
+jedicustomer216	手机号和自己成交客重复
+jedicustomer217	执行记录uuid不能为空
+jedicustomer218	该客源只有一个联系人，无法删除
+jedicustomer006	mgt paraValue invalid
+jedicustomer007	用户部门信息为空
+jedicustomer008	客户类型不合法
+jedicustomer009	客户为空
+jedicustomer009	客户状态不合法
+jedicustomer011	获取客户数量失败
+jedicustomer012	超过私客最大数量
+jedicustomer013	成交客重复
+commonerror003	没权限
+jedicustomer015	不是相同类型的客源
+jedicustomer016	更新数据失败
+jedicustomer017	权限没有设置
+jedicustomer018	审批已经存在
+jedicustomer019	房源找不到
+jedicustomer020	无此客源跟进记录
+jedicustomer021	时间跨度不能超过3个月
+jedicustomer023	状态非法
+jedicustomer024	客源有关联交易,不能删除
+jedicustomer024	您无权限修改相关方
+jedicustomerapp103	转出部门不存在
+jedicustomerapp104	转出部门不能为最低级部门
+jedicustomerapp105	转至部门级别不能低于转出部门所属级别
+jedicustomerapp106	客源规则不存在
+jedicustomerapp107	无操作权限
+jedicustomerapp108	非未提交状态不能发起审批流
+jedicustomerapp109	非未提交状态不能作废带看单
+jedicustomerapp110	非审批中状态不能修改成审批通过或者审批驳回
+jedicustomerapp112	非未提交状态不能更新
+jedicustomerapp113	转出部门不能为全部
+jedicustomerapp114	规则超过上限100条
+jedicustomerapp115	排序记录的前一条记录和后一条记录不能同时为空
+jedicustomerapp116	部门级别异常
+jedicustomerapp117	转至部门级别不合法
+jedicustomerapp118	转至部门级别不能超过选择部门级别
+jedicustomerapp118	正在转移业务归属，请稍后再试！
+jedicustomerapp119	您操作的带看不存在！
+Stakeholder001	参数无效
+Stakeholder002	超过新增相关方最大数量
+Stakeholder003	相关方名字已存在
+Stakeholder004	系统默认不允许修改
+Stakeholder005	此相关方还存在与客源关联，请删除关联的客源后，再删除
+Stakeholder006	没有查到对应的相关方！
+jedicustomer015	不是相同类型的客源
+Stakeholder100	保存数据失败
+Stakeholder101	更新数据失败
+Stakeholder016	更新数据失败
+Stakeholder017	权限没有设置
+Stakeholder023	状态非法
+KeCustomerStakeholder024	不能更新不是成交状态的客源的成交方
+        `
+        const f = str => {
+            const obj = {}
+            const lines = str.split( '\n' )
+            lines.forEach( line => {
+                const [ key, value ] = line.split( /\s+/ )
+                obj[ key ] = value
+            } )
+            return JSON.stringify( obj )
+        }
+        const result = f( str )
+        console.log( result );
+    </script>
+</body>
+
+</html>

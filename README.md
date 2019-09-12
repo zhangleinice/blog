@@ -1,134 +1,21 @@
-# 设计模式
+# js 基础
 
-1. 很多设计模式在 js 中可以用高阶函数来实现
-2. 设计模式的主题总是把不变的事物和变化的事物分离开来
+- [new 原理](https://github.com/zhangleinice/blog/blob/master/src/md/js/new.md)
+- [解读 this](https://github.com/zhangleinice/blog/blob/master/src/md/js/this.md)
+- [call 和 apply](https://github.com/zhangleinice/blog/blob/master/src/md/js/call.md)
+- [bind](https://github.com/zhangleinice/blog/blob/master/src/md/js/bind.md)
+- [防抖 debounce](https://github.com/zhangleinice/blog/blob/master/src/md/js/debounce.md)
+- [节流 throttle](https://github.com/zhangleinice/blog/blob/master/src/md/js/throttle.md)
+- [闭包](https://github.com/zhangleinice/blog/blob/master/src/md/js/closeure.md)
+- [高阶函数](https://github.com/zhangleinice/blog/blob/master/src/md/js/hof.md)
 
-## test
+# js 设计模式
 
-<!-- 1. [跳转](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/single.md) -->
-
-### 动态语言
-
-1. 优点：编写代码少，简洁，更多精力放在业务逻辑上面。
-2. 缺点：无法保证变量类型，运行时可能报错
-3. 静态语言：编译时就能发现类型不匹配的错误
-
-### 鸭子类型
-
-1. 如果它走起来像鸭子，叫起来也像鸭子，那么它就是鸭子。
-2. 只关心对象行为不关注对象本身
-3. 一个对象若有 pop 和 push 方法，他就可以当做栈来使用，一个对象有 length 属性（最好还有 slice 和 splice 等方法），这个对象就可以当做数组来使用
-
-### 多态
-
-1. 背后的思想：将‘做什么’和‘谁去做以及怎样做’分开，也就是将‘不变的’和‘可变的’分离开来
-2. 使用继承得到多态的效果，是让对象表现多态的常用手段
-
-### 封装变化
-
-1. 把系统中稳定不变的和容易变化的部分隔离出来
-2. 在迭代过程中，只需替换那些容易变化的部分
-3. 可以最大程度的保证程序的稳定性和可拓展性
-
-### 原型模式
-
-1. 就像吸血鬼的故事里面必然有一个吸血鬼祖先一样，每个对象都是由其他对象克隆来的，必然有一个根对象。js 中根对象为 Object.prototype
-2. 原型编程基本规则
-   - 所有数据都是对象
-   - 要得到一个对象不是通过实例类，而是找到一个对象作为原型并克隆它
-   - 对象会记住他的原型
-   - 对象无法响应某个请求，他会把这个请求委托给自己的原型
-3. new
-
-```js
-var objectFactory = function() {
-  var obj = new Object(), // 从Object.prototype 上克隆一个空的对象
-    // [].slice.call( arguments )，Array.prototype.slice.call(arguments)将arguments类数组转化成数组
-    // [].shift.call( arguments )将arguments类数组转化成数组，去除第一个参数
-    // 取出第一个参数，就是我们要传入的构造函数。此外因为 shift 会修改原数组，所以 arguments 会被去除第一个参数
-    Constructor = [].shift.call(arguments); // 取得外部传入的构造器，此例是Person
-  obj.__proto__ = Constructor.prototype; // 指向正确的原型
-  var ret = Constructor.apply(obj, arguments); // 借用外部传入的构造器给obj 设置属性
-  return typeof ret === "object" ? ret : obj; // 确保构造器总是会返回一个对象,构造函数默返回了一个this对象
-};
-```
-
-### this
-
-1. this 指向
-   - 作为对象的方法调用（this 指向该对象）
-   - 作为普通函数调用 （this 指向全局 windows）
-   - 作为构造器使用 （构造器默认 return this 对象）
-   - call，apply 调用。（几乎每次函数式语言风格都离不开 call 和 apply）
-
-```js
-window.name = "globalName";
-
-var myObject = {
-  name: "sven",
-  getName: function() {
-    return this.name;
-  }
-};
-
-var getName = myObject.getName;
-console.log(getName()); // globalName ,此时是普通函数的调用
-console.log(myObject.getName()); // sven ,   此时是对象方法的调用
-```
-
-2. apply，call,bind
-   - call()方法的作用和 apply() 方法类似，区别就是 call()方法接受的是参数列表，而 apply()方法接受的是一个参数数组
-   - func.call(null, 1, 2, 3) 函数内的 this 是 window
-
-### 闭包（closure）
-
-1. 变量的作用域
-   - 局部变量：函数内用 var 声明的变量
-   - 全局变量：函数内没有用 var 声明的变量和函数外声明的变量
-2. 变量的声明周期
-   - 全局变量的生命周期是永久的，除非主动销毁
-   - 局部变量的生命周期随着函数调用的结束而被销毁
-3. 闭包的应用（非常广泛）
-   - 封装变量
-   - 延长局部变量的生命周期
-4. 闭包与内存管理
-   - 把变量放在闭包中和放在全局，对内存方面的影响是一致的
-   - 如果闭包的作用域链中保存着一些 DOM 节点，这时候可能造成内存泄漏，但这并非闭包的问题，也非 js 的问题。在 IE 浏览器，BOM，DOM 对象是使用 C++的 COM 对象方式实现的，COM 对象的垃圾回收机制采用的是引用计数策略
-   - 销毁变量：将变量指向 null
-
-### 高阶函数（hof）
-
-1. 至少满足下列条件之一的函数
-   - 函数作为参数被传递
-   - 函数作为返回值输出
-2. 函数作为参数传递
-   - 把变化的参数放在函数参数中，分离业务中的变化与不变的部分。如 Array.prototype.sort
-   - 回调函数。如异步请求
-3. 函数作为输出值返回
-   - 判断数据类型——可以根据鸭子类型的概念来判断，比如是否具有 length 属性，有没有 sort，slice 方法；更好的方式是通过 Object.prototype.toString 来判断
-4. AOP 面向切面编程。把一些核心业务逻辑无关的功能抽离出来，如日志打印，安全控制，异常处理等
-   - js 中实现 AOP，都是把一个函数’动态织入‘到另一个函数之中
-5. hof 的其他应用
-   - 函数柯里化（function currying）
-   - uncurrying
-   - 函数节流（函数被频繁触发）
-   - 函数防抖
-   - 分时函数
-   - 惰性加载函数
-
-### Single (单例)
-
-1. 不直接 new Singleton（）创建实例，而是调用函数，在函数中做缓存只实例化一次。
-2. 有一些对象，我们往往只需要一个，比如线程池，全局缓存，window 对象等
-3. 惰性单例：在合适的时候才创建对象，并且只创建一个
-4. 项目中引入第三方库时，重复多次加载库文件时，全局只会实例化一个库对象，如 jQuery，lodash，moment ..., 其实它们的实现理念也是单例模式应用的一种
-5. vuex 和 redux 中的 store
-
-### 策略模式
-
-1. 定义一系列的算法，业务规则，把它们一个个封装起来，并且使他们相互替换
-2. 表单校验
-3. 可以有效避免多重条件选择语句
+- [js 中的设计模式](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattrn/composite.md)
+- [单例模式](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattrn/single.md)
+- [观察者模式](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattrn/observer.md)
+- [组合模式](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattrn/composite.md)
+- [策略模式](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattrn/strategy.md)
 
 ### Proxy
 
@@ -137,41 +24,12 @@ console.log(myObject.getName()); // sven ,   此时是对象方法的调用
 3. es6, proxy
 4. 事件代理
 
-### Observer
-
-1. 观察者模式又称发布-订阅模式或消息机制，定义了一种依赖关系，解决了主题对象与观察者之间功能的耦合
-2. 事件绑定
-3. promise
-4. nodejs 自定义事件
-5. vue，react 的生命周期
-6. vue wacth
-7. 主题与观察者分离，不是主动触发，而是被动监听，两者解耦
-8. 广泛用于异步编程中
-9. mvc，mvvm 都少不了观察者模式
-
 ### Command 命令模式
 
 1. 发送者 ==> 命令对象 ==> 接收者
 2. 发布者和执行者分离，解耦
 3. 宏命令：一次执行一批命令（遍历数组）
 4. 撤销命令：记录上一次的值
-
-### 组合模式 （Composite）
-
-1. 组合模式将对象组合成树形结构，表示”部分-整体“的层次结构，使得用户对单个对象和组合对象的使用具有一致性
-2. 案例
-   - 扫描文件夹
-3. 值得注意的地方
-   - 组合模式不是父子关系
-   - 对叶对象操作的一致性
-   - 双向映射关系
-   - 用职责链模式提高组合模式的性能
-4. 引用父对象
-   - 有时候需要让请求从子节点往父节点向上冒泡传递
-   - 当我们删除文件时，实际上是从这个文件所在的上层文件夹中删除该文件的
-5. 何时使用组合模式
-   - 表示对象的部分-整体层次结构
-   - 客户希望统一对待树中的所有对象。
 
 ### 模板方法模式
 
@@ -229,7 +87,7 @@ console.log(myObject.getName()); // sven ,   此时是对象方法的调用
 4. I - 接口独立
 5. [D - 依赖倒置：面向接口编程](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/接口和面向接口编程.md)
 
-## 创建型设计模式
+### [代码重构](https://github.com/zhangleinice/blog/blob/master/src/md/design-pattern/代码重构.md)
 
 ### Factory（工厂）
 
