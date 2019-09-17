@@ -34,6 +34,7 @@ appendDiv( function( node ) {
     return b - a;
 } );
 
+
 // 2. 函数作为返回值输出
 // 判断数据结构
 var isString = function( obj ) {

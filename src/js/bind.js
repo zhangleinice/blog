@@ -59,7 +59,6 @@ Function.prototype.bind2 = function( context ) {
     return fBound;
 }
 
-
 // 实现思路
 // 1. 返回一个函数
 // 2. 可以传入参数
