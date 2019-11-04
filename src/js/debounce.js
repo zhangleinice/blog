@@ -18,3 +18,15 @@ function debounce( fn, delay ) {
         }, delay )
     }
 }
+
+function debounce(fn, delay){
+    let time;
+    return function(){
+        const args = arguments
+        const that = this
+        clearTimeout(time)
+        time = setTimeout(function(){
+            fn.apply(that, args)
+        }, delay)
+    }
+}

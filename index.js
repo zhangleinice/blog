@@ -10,7 +10,8 @@
 // import bind from './src/js/bind';
 
 // import command from './src/design-pattern/command';
-import test from './src/test/test';
+// import test from './src/test/test';
+import block from './src/browser/block';
 
 // import Function from './src/js/call';
 // 测试一下

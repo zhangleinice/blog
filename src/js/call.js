@@ -43,3 +43,28 @@ foo.bar(); // 1
 // 1. 将函数设为对象的属性
 // 2. 执行该函数
 // 3. 删除该函数
+
+
+
+Function.prototype.mycall = function(context = window){
+    const args = [...arguments].slice(1)
+    context.fn = this
+    context.fn(args)
+    delete context.fn
+}
+
+Function.prototype.myApply = function(context, arr=[]){
+    context.fn = this
+    const result = context.fn(arr)
+    delete context.fn
+    return result
+}
+
+Function.prototype.myBind = function(context=window) {
+    const self = this;
+    const args = [].slice.call(arguments, 1)
+    return function() {
+        const args2 = [].slice.call(arguments)
+        return self.apply(context, [...args, ...args2])
+    }
+}
