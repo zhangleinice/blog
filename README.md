@@ -34,4 +34,5 @@
 # 浏览器工作原理与实践
 
 - [宏观视角下的浏览器](https://github.com/zhangleinice/blog/blob/master/src/md/browser/宏观视角下的浏览器.md)
+- [浏览器下js执行机制](https://github.com/zhangleinice/blog/blob/master/src/md/browser/浏览器下js执行机制.md)
 
