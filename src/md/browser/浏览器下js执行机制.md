@@ -1,9 +1,25 @@
-# JS变量提升
-![avatar](../../img/12.png)
+# JS执行过程？
+![avatar](../../img/context.png)
 1. JavaScript 代码执行过程中，需要先做变量提升，而之所以需要实现变量提升，是因为 JavaScript 代码在执行之前需要先编译。
-2. 一段代码如果定义了两个相同名字的函数，那么最终生效的是最后一个函数。
-3. JavaScript 的执行机制：先编译，再执行。
-
+2. 在编译阶段，变量和函数会被存放到*变量环境*中，变量的默认值会被设置为 undefined；在代码执行阶段，JavaScript 引擎会从变量环境中去查找自定义的变量和函数。
+3. 一段代码如果定义了两个相同名字的函数，那么最终生效的是最后一个函数。
+4. JavaScript 的执行机制：先编译，再执行。
+5. eg:
+```js
+    showName()
+    var showName = function() {
+        console.log(2)
+    }
+    function showName() {
+        console.log(1)
+    }
+    // VariableEnvironment
+    var showName = undefined;
+    var showName = function(){ console.log(1) }
+    // 可执行代码
+    showName()
+    showName = function () { console.log(2) }
+```
 # 调用栈：为什么JavaScript代码会出现栈溢出？
 1. 什么是栈？
    - 栈就是类似于一端被堵住的单行线，在车流量较大的场景中，就会发生反复的入栈、栈满、出栈、空栈和再次入栈，一直循环。
