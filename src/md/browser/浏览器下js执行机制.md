@@ -80,3 +80,71 @@ function runStack(n) {
 }
 runStack(50000)
 ```
+
+# 块级作用域：var缺陷以及为什么要引入let和const？
+1. 变量提升带来的问题
+   - 变量容易在不被察觉的情况下被覆盖掉
+```js
+var myname = "极客时间"
+function showName(){ 
+    console.log(myname); 
+    if(0){ 
+        var myname = "极客邦" 
+    } 
+    console.log(myname);
+}
+```
+   - 本应销毁的变量没有被销毁
+```js
+function foo() {
+    for (var i = 0; i < 7; i++) {
+
+    }
+    console.log(i);
+}
+foo()
+```
+2. ES6 引入了 let 和 const 关键字解决变量提升带来的问题
+```js
+function foo(){ 
+    var a = 1 
+    let b = 2 
+    { 
+        let b = 3 
+        var c = 4 
+        let d = 5 
+        console.log(a) 
+        console.log(b) 
+    } 
+    console.log(b) 
+    console.log(c) 
+    console.log(d)
+} 
+foo()
+```
+* 一. 创建执行上下文
+![avatar](../../img/xx.png)
+  - 函数内部通过 var 声明的变量，在编译阶段全都被存放到变量环境里面了
+  - 通过 let 声明的变量，在编译阶段会被存放到词法环境（Lexical Environment）中
+  - ****在函数的作用域内部{}，通过 let 声明的变量并没有被存放到词法环境****中
+
+* 二. 执行代码
+![avatar](../../img/yy.png)
+  - 在词法环境内部，维护了一个小型栈结构，栈底是函数最外层的变量，进入一个作用域块后，就会把该作用域块内部的变量压到栈顶；当作用域执行完成之后，该作用域的信息就会从栈顶弹出,(通过let，const声明的变量)
+  - 变量查找过程
+![avatar](../../img/x1.png)
+
+
+3. 扩展
+```js
+let myname = '极客时间' 
+{
+   console.log(myname) 
+   let myname = '极客邦'
+}
+// Uncaught ReferenceError: Cannot access 'myname' before initialization
+```
+   * 分析原因】：在块作用域内，let声明的变量被提升，但变量只是创建被提升，初始化并没有被提升，在初始化之前使用变量，就会形成一个暂时性死区
+   - var的创建和初始化被提升，赋值不会被提升
+   - let的创建被提升，初始化和赋值不会被提升
+   - function的创建、初始化和赋值均会被提升
