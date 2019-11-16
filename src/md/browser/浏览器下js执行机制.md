@@ -148,3 +148,72 @@ let myname = '极客时间'
    - var的创建和初始化被提升，赋值不会被提升
    - let的创建被提升，初始化和赋值不会被提升
    - function的创建、初始化和赋值均会被提升
+
+# 作用域链
+```js
+function bar() {
+    console.log(myName)
+}
+function foo() {
+    var myName = "极客邦"
+    bar()
+}
+var myName = "极客时间"
+foo()
+```
+![avatar](../../img/chain.png)
+1. 其实在每个执行上下文的变量环境中，都包含了一个外部引用，用来指向外部的执行上下文，我们把这个外部引用称为 outer。
+2. 我们把通过作用域查找变量的链条称为作用域链
+
+# 从JavaScript执行上下文的视角看this
+```js
+var bar = {
+    myName:"time.geekbang.com",
+    printName: function () {
+        console.log(myName)
+    }    
+}
+bar.printName()
+```
+1. 在对象内部的方法中使用对象内部的属性是一个非常普遍的需求。但是 JavaScript 的作用域机制并不支持这一点，基于这个需求，JavaScript 又搞出来另外一套 this 机制。
+2. this是什么
+![avatar](../../img/this.png)
+  - this 是和执行上下文绑定的
+  - 执行上下文主要分为三种——全局执行上下文、函数执行上下文和 eval 执行上下文，所以对应的 this 也只有这三种——全局执行上下文中的 this、函数中的 this 和 eval 中的 this。
+
+3. this指向
+   - 当函数作为对象的方法调用时，函数中的 this 就是该对象；
+   - 当函数被正常调用时，在严格模式下，this 值是 undefined，非严格模式下 this 指向的是全局对象 window
+   - 通过 new 关键字构建好了一个新对象，并且构造函数中的 this 其实就是新对象本身。
+   - 嵌套函数中的 this 不会继承外层函数的 this 值。
+4. this 的设计缺陷以及应对方案
+```js
+var myObj = {
+  name : "极客时间", 
+  showThis: function(){
+    console.log(this)
+    function bar(){
+        console.log(this)
+    }
+    bar()
+  }
+}
+// 解决方案
+var myObj = {
+  name : "极客时间", 
+  showThis: function(){
+    console.log(this)
+    // const self = this
+    // function bar(){
+    //     console.log(self)
+    // }
+    const bar = () => {
+        console.log(this)
+    }
+    bar()
+  }
+}
+myObj.showThis()
+```
+   - 嵌套函数中的 this 不会从外层函数中继承;(第一种是把 this 保存为一个 self 变量，再利用变量的作用域机制传递给嵌套函数。第二种是继续使用 this，但是要把嵌套函数改为箭头函数，因为箭头函数没有自己的执行上下文，所以它会继承调用函数中的 this。)
+   - 普通函数中的 this 默认指向全局对象 window(因为在实际工作中，我们并不希望函数执行上下文中的 this 默认指向全局对象。通过 call 方法来显示调用)

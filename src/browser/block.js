@@ -36,23 +36,46 @@
 // foo()
 
 
-function bar() {
-    var myName = "极客世界"
-    let test1 = 100
-    if (1) {
-        let myName = "Chrome浏览器"
-        console.log(test)   // 1
+// function bar() {
+//     var myName = "极客世界"
+//     let test1 = 100
+//     if (1) {
+//         let myName = "Chrome浏览器"
+//         console.log(test)   // 1
+//     }
+// }
+// function foo() {
+//     var myName = "极客邦"
+//     let test = 2
+//     {
+//         let test = 3
+//         bar()
+//     }
+// }
+// var myName = "极客时间"
+// let myAge = 10
+// let test = 1
+// foo()
+
+
+let userInfo = {
+    name:"jack.ma",
+    age:13,
+    sex:'male',
+    updateInfo:function(){
+      //模拟xmlhttprequest请求延时
+      setTimeout(() => {
+        this.name = "pony.ma"
+        this.age = 39
+        this.sex = 'female'
+      },100)
+    //   function a() {
+    //     this.name = "pony.ma"
+    //     this.age = 39
+    //     this.sex = 'female'
+    //   }
     }
-}
-function foo() {
-    var myName = "极客邦"
-    let test = 2
-    {
-        let test = 3
-        bar()
-    }
-}
-var myName = "极客时间"
-let myAge = 10
-let test = 1
-foo()
+  }
+  
+  userInfo.updateInfo()
+  console.log(userInfo);
