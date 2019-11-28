@@ -11,7 +11,9 @@
 
 // import command from './src/design-pattern/command';
 // import test from './src/test/test';
-import block from './src/browser/block';
+// import block from './src/browser/block';
+// import promise from './src/test/promise';
+import moduleName from './src/browser/async';
 
 // import Function from './src/js/call';
 // 测试一下
