@@ -3,12 +3,11 @@ const isFunction = fn => typeof fn === 'function'
 
 // 定义Bromise的三种状态
 const PENDING = 'PENDING'
-const FULILLED = 'FULILLED'
+const FULFILLED = 'FULFILLED'
 const REJECTED = 'REJECTED'
 
 class Bromise {
     constructor( handle ) {
-        debugger
         if ( !isFunction( handle ) ) {
             throw new Error( 'Bromie must accept a function as a params' )
         }
@@ -31,15 +30,37 @@ class Bromise {
             this._reject( error )
         }
     }
-    _resolve( val ) {
+    _resolve(val) {
         if ( this._status !== PENDING ) return
-        // 依次执行成功队列中的函数，并清空队列
         const run = () => {
-            this._status = FULILLED
-            this._value = val
-            let cb;
-            while(cb = this._fulfilledQueues.shift()) {
-                cb(val)
+            // 依次执行成功队列中的函数，并清空队列
+            const runFulfilled = val => {
+                let cb;
+                while(cb = this._fulfilledQueues.shift()) {
+                    cb(val)
+                }
+            }
+            const runRejected = err => {
+                let cb;
+                while(cb = this._fulfilledQueues.shift()) {
+                    cb(err)
+                }
+            }
+            // 就是当 resolve 方法传入的参数为一个 Promise 对象时，则该 Promise 对象状态决定当前 Promise 对象的状态
+            if(val instanceof Bromise) {
+                val.then(resolve => {
+                    this._status = FULFILLED
+                    this._value = val
+                    runFulfilled(resolve)
+                }, err => {
+                    this._status = REJECTED
+                    this._value = err
+                    runRejected(err)
+                }) 
+            }else{
+                this._status = FULFILLED
+                this._value = val
+                runFulfilled(val)
             }
         }
         // 支持同步promise,采用异步调用
@@ -104,7 +125,7 @@ class Bromise {
                     this._rejectedQueues.push(onRejected)
                     break;
                 // 当状态已经改变，立即执行对应的回调
-                case FULILLED:
+                case FULFILLED:
                     fulfilled(_value)
                     break;
                 case REJECTED:
@@ -113,6 +134,60 @@ class Bromise {
             }
         })
     }
+    // 相当于调用 then 方法, 但只传入 Rejected 状态的回调函数
+    catch(onRejected){
+        return this.then(undefined, onRejected)
+    } 
+
+    // 静态方法。不能在类的实例上调用静态方法，而应该通过类本身调用
+    // Promise.resolve方法
+    static resolve(val) {
+        if(val instanceof Bromise){
+            return val
+        }
+        return new Bromise(resolve => resolve(val))
+    } 
+    static rejected(err) {
+        return new Promise((resolve, rejected) => rejected(err))
+    }
+    static all(list) {
+        return new Bromise((resolve, rejected) => {
+            let values = []
+            let count = 0
+            for( let [key, val] of list.entries()){
+                this.resolve(val).then((res => {
+                    count ++
+                    values[key] = res
+                    // 所有状态都返回 FULFILLED 时，新返回的Promise状态变为 FULFILLED
+                    if(count === list.length) resolve(values)
+                }), err => {
+                    rejected(err)
+                })
+            }
+        })
+    }
+    // 返回先执行完的promise
+    static race(list) {
+        return new Bromise((resolve, rejected) => {
+            for(let val of list) {
+                // 只要有一个实例率先改变状态，新的MyPromise的状态就跟着改变
+                this.resolve(val).then((value => {
+                    resolve(value)
+                }), err => {
+                    rejected(err)
+                })
+            }
+        })
+    }
+    // finally 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作
+    finally(cb) {
+        return this.then(val => {
+            return Bromise.resolve(cb()).then(() => val)
+        }, err => {
+            return Bromise.resolve(cb()).then(() => {throw err})
+        })
+    }
 }
 
 export default Bromise
+
