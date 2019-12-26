@@ -14,7 +14,8 @@
 // import block from './src/browser/block';
 // import promise from './src/test/promise';
 // import moduleName from './src/browser/async';
-import bromise from './src/test/bromise';
+// import bromise from './src/test/bromise';
+import Set from './src/test/set';
 
 // import Function from './src/js/call';
 // 测试一下
