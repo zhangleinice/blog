@@ -150,6 +150,8 @@ class Bromise {
     static rejected(err) {
         return new Promise((resolve, rejected) => rejected(err))
     }
+    // 所有状态都返回 FULFILLED 时，新返回的Promise状态变为 FULFILLED
+    // 其中一个任务出现异常，所有任务都会挂掉
     static all(list) {
         return new Bromise((resolve, rejected) => {
             let values = []
@@ -158,12 +160,35 @@ class Bromise {
                 this.resolve(val).then((res => {
                     count ++
                     values[key] = res
-                    // 所有状态都返回 FULFILLED 时，新返回的Promise状态变为 FULFILLED
                     if(count === list.length) resolve(values)
                 }), err => {
                     rejected(err)
                 })
             }
+        })
+    }
+    // 解决Promise.all中一个任务出现异常，所有任务都挂掉的问题
+    // fulfilled， rejected状态都会返回
+    // 还有问题
+    static allSettled(list) {
+        return new Bromise((resolve, rejected) => {
+            let count = 0
+            let result = []
+            for(let [key, val] of list.entries()) {
+                let obj = Object.create(null)
+                this.resolve(val).then(res => {
+                    count++
+                    obj.status = "fulfilled"
+                    obj.value = res
+                })
+                this.rejected(val).catch(err => {
+                    count++
+                    obj.status = "rejected"
+                    obj.value = err
+                })
+                result.push(obj)
+            }
+            if(count === list.entries().length)  return resolve(result)
         })
     }
     // 返回先执行完的promise
