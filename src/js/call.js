@@ -68,3 +68,10 @@ Function.prototype.myBind = function(context=window) {
         return self.apply(context, [...args, ...args2])
     }
 }
+
+
+Function.prototype.call = function(context = window){
+    context.fn = this
+    context.fn([...arguments].slice(1))
+    delete context.fn
+}
