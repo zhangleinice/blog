@@ -14,9 +14,11 @@
 // import block from './src/browser/block';
 // import promise from './src/test/promise';
 // import moduleName from './src/browser/async';
-import bromise from './src/test/bromise';
+// import bromise from './src/test/bromise';
 // import Set from './src/test/set';
 // import Map from './src/test/map';
+
+import x from './src/algorithm/list';
 
 // import Function from './src/js/call';
 // 测试一下
