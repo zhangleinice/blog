@@ -36,7 +36,6 @@ export const isValid = function(s) {
  * 2. if(len % 2) return false 减少不必要的计算
  */
 export const isValid2 = function(s) {
-    debugger
     let len = s.length
     //  减少不必要的计算
     if(len % 2) return false
@@ -57,6 +56,33 @@ export const isValid2 = function(s) {
             case '}':
                 if(stack.pop() !== '{') return false
                 break;                                
+        }
+    }
+    return !stack.length
+};
+
+/**
+ * 简化代码
+ * @param {string} s
+ * @return {boolean}
+ */
+export const isValid3 = function(s) {
+    const len = s.length
+    if(len % 2) return false
+    const strMap = {
+        '}': '{',
+        ')': '(',
+        ']': '['
+    }
+    const stack = []
+    for(let i = 0; i < len; i ++) {
+        let str = s[i]
+        if(!Object.keys(strMap).includes(str)){
+            stack.push(str)
+        }else{
+            if(stack.pop() !== strMap[str]) {
+                return false
+            }
         }
     }
     return !stack.length

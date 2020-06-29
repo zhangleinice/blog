@@ -18,7 +18,10 @@
 // import Set from './src/test/set';
 // import Map from './src/test/map';
 
-import x from './src/algorithm/list';
+// import { isValid2 } from './src/algorithm/stack';
+// isValid2('{[})')
+
+import moduleName from './src/algorithm/kMax';
 
 // import Function from './src/js/call';
 // 测试一下
