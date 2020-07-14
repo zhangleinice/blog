@@ -21,7 +21,16 @@
 // import { isValid2 } from './src/algorithm/stack';
 // isValid2('{[})')
 
-import moduleName from './src/algorithm/kMax';
+// import moduleName from './src/algorithm/kMax';
+// import { threeSum2 } from './src/algorithm/threeSum';
+
+// let nums = [-1, 0, 1, 2, -1, -4]
+
+// let x = threeSum2(nums)
+
+// console.log(x);
+// import BinarySearchTree from './src/algorithm/bst';
+import moduleName from './src/algorithm/recursion';
 
 // import Function from './src/js/call';
 // 测试一下
